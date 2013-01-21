@@ -41,9 +41,7 @@ class FoosGame
         } catch(Exception e) {
             System.out.println("ERROR");
         }
-        Strategies.
 
-        game_state = new int[4];
     }
 
     public boolean is_valid(int[] move) {
