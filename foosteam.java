@@ -1,3 +1,9 @@
+/**
+ * Mona & Yifan's awesome strategy of following the ball
+ * and testing different strategies
+ */
+import Strategies;
+
 class foosteam
 {
     public static int NUM_FOOSPLAYERS = 26;
@@ -19,6 +25,7 @@ class foosteam
         int[] roster = {100, 100, 100, 100,
                 -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
                 -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4};
+        //int[] roster =
 
         int[] game_state;
         while (true) {
