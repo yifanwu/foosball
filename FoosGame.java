@@ -41,6 +41,7 @@ class FoosGame
         } catch(Exception e) {
             System.out.println("ERROR");
         }
+        Strategies.
 
         game_state = new int[4];
     }

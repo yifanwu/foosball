@@ -13,7 +13,7 @@ public class Strategies {
         int[] playersOnBallRow = getPlayersOnRow(roster, ballRow);
         int[] oppsOnBallRow = getPlayersOnRow(oppRoster, ballRow);
         int[] myTeamFatigues = getTeamFatigue(gameState);
-        int playerToMove = 0;
+        int playerToMove = -1;
 
         if (playersOnBallRow.length > oppsOnBallRow.length && ballRow - 1 >= -5) {
             int[] playersToMove = getPlayersOnRow(roster, ballRow - 1);
@@ -24,7 +24,10 @@ public class Strategies {
             playerToMove = getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
         }
 
-        roster[playerToMove] = ballRow;
+        if (playerToMove != -1) {
+            roster[playerToMove] = ballRow;
+        }
+
         return roster;
     }
 
