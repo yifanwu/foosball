@@ -1,3 +1,9 @@
+/**
+ * Mona & Yifan's awesome strategy of following the ball
+ * and testing different strategies
+ */
+import Strategies;
+
 class foosteam
 {
     public static int NUM_FOOSPLAYERS = 26;
@@ -19,6 +25,7 @@ class foosteam
         int[] roster = {100, 100, 100, 100,
                 -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
                 -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4};
+        //int[] roster =
 
         int[] game_state;
         while (true) {
@@ -31,14 +38,13 @@ class foosteam
             roster = new_move(game_state);
         }
 
+
         System.out.println("Final Score: " + game_state[0] + " - " + game_state[1]);
         if (game_state[0] > game_state[1])
             System.out.println("WIN!");
         if (game_state[0] == game_state[1])
             System.out.println("Tie Game");
     }
-
-
 
 
     /** Determine a roster for the next round from the current game state.
@@ -59,7 +65,7 @@ class foosteam
         int[] roster = new int[NUM_FOOSPLAYERS];
         for (int i = 0; i < NUM_FOOSPLAYERS; ++i) {
             roster[i] = game_state[i+4];
-        }
+            }
         return roster;
     }
 

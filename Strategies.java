@@ -1,11 +1,63 @@
 import java.util.ArrayList;
 
-public class Strategies {
+public static class Strategies {
 
     private static final int NUM_FOOSPLAYERS = 26;
 
+    /*
+      * keep track of the games played and choose based on their preportions
+      * type result is even, offensive and defensive
+      * initalized as 1:1:1 for math convenience
+     */
+    public static int[] GAME_TYPE_RESULT = [1,1,1];
+
+    public static enum GAME_TYPE {
+        EVEN,OFFENSIVE,DEFENSIVE
+    }
+
+    /* the rows are indexed per below
+     * -4   -3  -2  -1  0   1   2   3   4
+     */
+    static final int[] INIT_EVEN = [3,1,2,2,3,3,2,3,3];
+    static final int[] INIT_OFFENSIVE = [2,1,1,1,4,3,3,3,4];
+    static final int[] INIT_DEFENSIVE = [4,3,3,1,4,3,1,1,2];
+    static final GAME_TYPE[] intToType = [INIT_EVEN,INIT_OFFENSIVE,INIT_DEFENSIVE]
+    // to be filled in later as our init board
+    static int[] INIT;
+
+    public static int[] rowNumToRoster(int[] input) {
+        int[] output = int[22];
+
+        // input.length = 9
+        if (input.length != 9) {
+            return null;
+        } else {
+            for(int i=0; i < 9; i++) {
+                for(int j=0;j<input[i];j++) {
+                    // hard coding the offset
+                    output[i] = i-4;
+                }
+            }
+        }
+    }
+
+    public static GAME_TYPE chooseGameType() {
+        int randNum = Math.random();
+        double total = 0.0;
+        for (int x: GAME_TYPE_RESULT) {
+            total += x;
+        }
+        resultSum = 0;
+        for (int j = 0; j<GAME_TYPE_RESULT.length) {
+            resultSum += GAME_TYPE_RESULT[j];
+            if (randNum < resultSum/total) {
+                INIT = rowNumToRoster(j);
+            }
+        }
+    }
+
     public static int[] movePlayerTowardBall(int[] gameState) {
-        
+
         int[] roster = getTeamRoster(gameState);
         int[] oppRoster = getOppRoster(gameState);
         int ballRow = gameState[3];
