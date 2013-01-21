@@ -2,7 +2,6 @@
  * Mona & Yifan's awesome strategy of following the ball
  * and testing different strategies
  */
-import Strategies;
 
 class foosteam
 {
@@ -62,12 +61,6 @@ class foosteam
      */
     public static int[] new_move(int[] game_state) {
         // Trivial strategy, null move
-        int[] roster = new int[NUM_FOOSPLAYERS];
-        for (int i = 0; i < NUM_FOOSPLAYERS; ++i) {
-            roster[i] = game_state[i+4];
-            }
-        return roster;
+        return Strategies.movePlayerTowardBall(game_state);
     }
-
-
 }

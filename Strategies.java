@@ -9,7 +9,7 @@ public static class Strategies {
       * type result is even, offensive and defensive
       * initalized as 1:1:1 for math convenience
      */
-    public static int[] GAME_TYPE_RESULT = [1,1,1];
+    public static int[] GAME_TYPE_RESULT = new int[]{1,1,1};
 
     public static enum GAME_TYPE {
         EVEN,OFFENSIVE,DEFENSIVE
@@ -18,15 +18,15 @@ public static class Strategies {
     /* the rows are indexed per below
      * -4   -3  -2  -1  0   1   2   3   4
      */
-    static final int[] INIT_EVEN = [3,1,2,2,3,3,2,3,3];
-    static final int[] INIT_OFFENSIVE = [2,1,1,1,4,3,3,3,4];
-    static final int[] INIT_DEFENSIVE = [4,3,3,1,4,3,1,1,2];
-    static final GAME_TYPE[] intToType = [INIT_EVEN,INIT_OFFENSIVE,INIT_DEFENSIVE]
+    static final int[] INIT_EVEN = new int[]{3,1,2,2,3,3,2,3,3};
+    static final int[] INIT_OFFENSIVE = new int[]{2,1,1,1,4,3,3,3,4};
+    static final int[] INIT_DEFENSIVE = new int[]{4,3,3,1,4,3,1,1,2};
+    static final int[][] intToType = new int[][]{INIT_EVEN,INIT_OFFENSIVE,INIT_DEFENSIVE};
     // to be filled in later as our init board
     //static int[] INIT;
 
     public static int[] rowNumToRoster(int[] input) {
-        int[] output = int[22];
+        int[] output = new int[22];
 
         // input.length = 9
         if (input.length != 9) {
@@ -47,7 +47,7 @@ public static class Strategies {
         for (int x: GAME_TYPE_RESULT) {
             total += x;
         }
-        resultSum = 0;
+        int resultSum = 0;
         for (int j = 0; j<GAME_TYPE_RESULT.length) {
             resultSum += GAME_TYPE_RESULT[j];
             if (randNum < resultSum/total) {
@@ -65,7 +65,7 @@ public static class Strategies {
         int[] playersOnBallRow = getPlayersOnRow(roster, ballRow);
         int[] oppsOnBallRow = getPlayersOnRow(oppRoster, ballRow);
         int[] myTeamFatigues = getTeamFatigue(gameState);
-        int playerToMove = 0;
+        int playerToMove = -1;
 
         if (playersOnBallRow.length > oppsOnBallRow.length && ballRow - 1 >= -5) {
             int[] playersToMove = getPlayersOnRow(roster, ballRow - 1);
@@ -76,7 +76,10 @@ public static class Strategies {
             playerToMove = getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
         }
 
-        roster[playerToMove] = ballRow;
+        if (playerToMove != -1) {
+            roster[playerToMove] = ballRow;
+        }
+
         return roster;
     }
 
