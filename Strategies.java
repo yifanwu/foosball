@@ -23,7 +23,7 @@ public static class Strategies {
     static final int[] INIT_DEFENSIVE = [4,3,3,1,4,3,1,1,2];
     static final GAME_TYPE[] intToType = [INIT_EVEN,INIT_OFFENSIVE,INIT_DEFENSIVE]
     // to be filled in later as our init board
-    static int[] INIT;
+    //static int[] INIT;
 
     public static int[] rowNumToRoster(int[] input) {
         int[] output = int[22];

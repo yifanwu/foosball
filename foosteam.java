@@ -25,7 +25,7 @@ class foosteam
         int[] roster = {100, 100, 100, 100,
                 -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
                 -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4};
-        //int[] roster =
+        //int[] roster = Strategies.
 
         int[] game_state;
         while (true) {
