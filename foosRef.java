@@ -8,7 +8,7 @@ class foosRef
 
   public static void main(String[] args) {
     if (args.length != 1) {
-      System.out.println("Usage: java foosbasic GAMEID"
+      System.out.println("Usage: java foosBasic GAMEID"
                          + "\n\tGAMEID = 0    creates a new game"
                          + "\n\tGAMEID = WXYZ connect to a specific game");
       return;

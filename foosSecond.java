@@ -4,7 +4,7 @@
  */
 import java.util.Arrays;
 
-class foosBasic
+class foosSecond
 {
     public static int NUM_FOOSPLAYERS = 26;
     public static int NUM_FIELDED = 22;
