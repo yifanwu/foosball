@@ -1,16 +1,12 @@
+import java.lang.System;
 import java.util.ArrayList;
+import java.util.*;
+import java.util.Arrays;
 
-public static class Strategies {
+public class Strategies {
 
     private static final int NUM_FOOSPLAYERS = 26;
-
-    /*
-      * keep track of the games played and choose based on their preportions
-      * type result is even, offensive and defensive
-      * initalized as 1:1:1 for math convenience
-     */
-    public static int[] GAME_TYPE_RESULT = new int[]{1,1,1};
-
+    private static boolean v = true;
     public static enum GAME_TYPE {
         EVEN,OFFENSIVE,DEFENSIVE
     }
@@ -18,15 +14,19 @@ public static class Strategies {
     /* the rows are indexed per below
      * -4   -3  -2  -1  0   1   2   3   4
      */
+    static final int[][] INIT_TYPES = {{3,1,2,2,3,3,2,3,3}, {2,1,1,1,4,3,3,3,4}, {4,3,3,1,4,3,1,1,2}};
+
+    /*
     static final int[] INIT_EVEN = new int[]{3,1,2,2,3,3,2,3,3};
     static final int[] INIT_OFFENSIVE = new int[]{2,1,1,1,4,3,3,3,4};
     static final int[] INIT_DEFENSIVE = new int[]{4,3,3,1,4,3,1,1,2};
-    static final int[][] intToType = new int[][]{INIT_EVEN,INIT_OFFENSIVE,INIT_DEFENSIVE};
+    */
+    //static final int[][] intToType = new int[][]{INIT_EVEN,INIT_OFFENSIVE,INIT_DEFENSIVE};
     // to be filled in later as our init board
     //static int[] INIT;
 
     public static int[] rowNumToRoster(int[] input) {
-        int[] output = new int[22];
+        int[] output = new int[26];
 
         // input.length = 9
         if (input.length != 9) {
@@ -38,23 +38,37 @@ public static class Strategies {
                     output[i] = i-4;
                 }
             }
+            for (int j=0;j<4;j++) {
+                output[22+j] = 100;
+            }
+            return output;
         }
     }
 
-    public static GAME_TYPE chooseGameType() {
-        int randNum = Math.random();
+    public static int chooseInitType(int[] GAME_TYPE_RESULT) {
+        double randNum = Math.random();
+        if (v) {
+            System.out.println("the random number is: "+randNum);
+        }
         double total = 0.0;
+
         for (int x: GAME_TYPE_RESULT) {
             total += x;
         }
+
         int resultSum = 0;
-        for (int j = 0; j<GAME_TYPE_RESULT.length) {
+
+        for (int j = 0; j<GAME_TYPE_RESULT.length; j++) {
             resultSum += GAME_TYPE_RESULT[j];
             if (randNum < resultSum/total) {
-                INIT = rowNumToRoster(j);
+                return j;
             }
+            // buggy
+            return GAME_TYPE_RESULT.length-1;
         }
+        return -1;
     }
+
 
     public static int[] movePlayerTowardBall(int[] gameState) {
 
@@ -67,11 +81,11 @@ public static class Strategies {
         int[] myTeamFatigues = getTeamFatigue(gameState);
         int playerToMove = -1;
 
-        if (playersOnBallRow.length > oppsOnBallRow.length && ballRow - 1 >= -5) {
+        if (playersOnBallRow.length > oppsOnBallRow.length && ballRow - 1 > -5) {
             int[] playersToMove = getPlayersOnRow(roster, ballRow - 1);
             playerToMove = getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
         }
-        else if (ballRow + 1 <= 5) {
+        else if (ballRow + 1 < 5) {
             int[] playersToMove = getPlayersOnRow(roster, ballRow + 1);
             playerToMove = getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
         }
@@ -84,6 +98,11 @@ public static class Strategies {
     }
 
     public static int getLeastFatiguedPlayer(int[] players, int[] fatigue) {
+        if (v) {
+            System.out.println("getLeastFatiguedPlayer called");
+            System.out.println("players: "+Arrays.toString(players));
+            System.out.println("faitgue: "+Arrays.toString(fatigue));
+        }
         int leastFatiguedPlayer = players[0];
         int minFatigue = Integer.MAX_VALUE;
 
