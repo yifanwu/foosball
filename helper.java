@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.io.*;
+
 
 public class Helper {
     private static final int NUM_FOOSPLAYERS = 26;
@@ -80,5 +83,28 @@ public class Helper {
         System.arraycopy(gameState, 82, oppFatigue, 0, NUM_FOOSPLAYERS);
 
         return oppFatigue;
+    }
+
+    /**
+     * basic logging to help analyse the results better, potentially
+     *
+     * @param gameState
+     */
+    public static void logMoves(int[] gameState) {
+        try {
+
+            double time = System.currentTimeMillis();
+            FileWriter fstream = new FileWriter(time+".txt");
+            BufferedWriter out = new BufferedWriter(fstream);
+
+            out.write(Arrays.toString(gameState));
+            //Close the output stream
+            out.close();
+
+        } catch (Exception e) {
+            System.out.println("caught exception before it killed us");
+        }
+
+
     }
 }
