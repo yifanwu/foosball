@@ -1,22 +1,21 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.io.*;
 
 
-public class Helper {
+class Helper {
     private static final int NUM_FOOSPLAYERS = 26;
-    private static boolean v = true;
+    private static boolean v = false;
 
-    public static int getTotalFatigue(int[] playersFatigue) {
+    public static int getFatigueOfRow(int[] players, int[] fatigues) {
         int totalFatigue = 0;
-        for (int fatigue : playersFatigue) {
-            totalFatigue += fatigue;
+        for (int player : players) {
+            totalFatigue += fatigues[player];
         }
 
         return totalFatigue;
     }
-
 
     public static int getLeastFatiguedPlayer(int[] players, int[] fatigue) {
         if (v) {
