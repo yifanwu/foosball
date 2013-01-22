@@ -1,6 +1,4 @@
-import java.lang.System;
 import java.util.ArrayList;
-import java.util.*;
 import java.util.Arrays;
 
 public class Strategies {
@@ -108,7 +106,7 @@ public class Strategies {
             System.out.println("players: "+Arrays.toString(players));
             System.out.println("faitgue: "+Arrays.toString(fatigue));
         }
-        int leastFatiguedPlayer = players[0];
+        int leastFatiguedPlayer = -1;
         int minFatigue = Integer.MAX_VALUE;
 
         for (int player : players) {
