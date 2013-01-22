@@ -1,9 +1,18 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class helper {
+public class Helper {
     private static final int NUM_FOOSPLAYERS = 26;
     private static boolean v = true;
+
+    public static int getTotalFatigue(int[] playersFatigue) {
+        int totalFatigue = 0;
+        for (int fatigue : playersFatigue) {
+            totalFatigue += fatigue;
+        }
+
+        return totalFatigue;
+    }
 
 
     public static int getLeastFatiguedPlayer(int[] players, int[] fatigue) {
