@@ -4,7 +4,7 @@
  */
 import java.util.Arrays;
 
-class foosBasic
+class FoosBasic
 {
     public static int NUM_FOOSPLAYERS = 26;
     public static int NUM_FIELDED = 22;
@@ -23,7 +23,7 @@ class foosBasic
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java foosBasic GAMEID"
+            System.out.println("Usage: java FoosBasic GAMEID"
                     + "\n\tGAMEID = 0    creates a new game"
                     + "\n\tGAMEID = WXYZ connect to a specific game");
             return;
@@ -86,6 +86,6 @@ class foosBasic
      */
     public static int[] new_move(int[] game_state) {
         // Trivial strategy, null move
-        return Strategies.movePlayerTowardBall(game_state);
+        return Strategies.movePlayerTowardBall2(game_state);
     }
 }
