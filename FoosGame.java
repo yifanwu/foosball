@@ -37,7 +37,7 @@ class FoosGame
 
       if (message.equals("READY"))
         System.exit(0);
-
+w
     } catch(Exception e) {
       System.out.println("ERROR");
     }

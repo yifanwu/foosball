@@ -74,7 +74,6 @@ public class Strategies {
 
 
     public static int[] movePlayerTowardBall(int[] gameState) {
-
         int[] roster = getTeamRoster(gameState);
         int[] oppRoster = getOppRoster(gameState);
         int ballRow = gameState[3];
@@ -140,40 +139,28 @@ public class Strategies {
 
     public static int[] getTeamRoster(int[] gameState) {
         int[] roster = new int[NUM_FOOSPLAYERS];
-        for (int i = 0; i < NUM_FOOSPLAYERS; i++) {
-            roster[i] = gameState[i+4];
-        }
+        System.arraycopy(gameState, 4, roster, 0, NUM_FOOSPLAYERS);
 
         return roster;
     }
 
     public static int[] getOppRoster(int[] gameState) {
         int[] oppRoster = new int[NUM_FOOSPLAYERS];
-
-        for (int i = 0; i < NUM_FOOSPLAYERS; i++) {
-            oppRoster[i] = gameState[i+56];
-        }
+        System.arraycopy(gameState, 56, oppRoster, 0, NUM_FOOSPLAYERS);
 
         return oppRoster;
     }
 
     public static int[] getTeamFatigue(int[] gameState) {
         int[] teamFatigue = new int[NUM_FOOSPLAYERS];
-
-        for (int i = 0; i < NUM_FOOSPLAYERS; i++) {
-            teamFatigue[i] = gameState[i+30];
-        }
+        System.arraycopy(gameState, 30, teamFatigue, 0, NUM_FOOSPLAYERS);
 
         return teamFatigue;
     }
 
-
     public static int[] getOppFatigue(int[] gameState) {
         int[] oppFatigue = new int[NUM_FOOSPLAYERS];
-
-        for (int i = 0; i < NUM_FOOSPLAYERS; i++) {
-            oppFatigue[i] = gameState[i+82];
-        }
+        System.arraycopy(gameState, 82, oppFatigue, 0, NUM_FOOSPLAYERS);
 
         return oppFatigue;
     }
