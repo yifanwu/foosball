@@ -164,4 +164,33 @@ public class Strategies {
 
         return oppFatigue;
     }
+
+    public static int[] movePlayerTowardBall2(int[] gameState) {
+        int[] roster = getTeamRoster(gameState);
+        int[] oppRoster = getOppRoster(gameState);
+        int ballRow = gameState[3];
+
+        int[] playersOnBallRow = getPlayersOnRow(roster, ballRow);
+        int[] oppsOnBallRow = getPlayersOnRow(oppRoster, ballRow);
+        int[] myTeamFatigues = getTeamFatigue(gameState);
+        int playerToMove = -1;
+
+        if (playersOnBallRow.length < oppsOnBallRow.length && ballRow - 1 > -5) {
+            int[] playersToMove = getPlayersOnRow(roster, ballRow - 1);
+            playerToMove = getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
+        }
+        else if (ballRow + 1 < 5) {
+            int[] playersToMove = getPlayersOnRow(roster, ballRow + 1);
+            playerToMove = getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
+        }
+
+        if (playerToMove != -1) {
+            roster[playerToMove] = ballRow;
+        }
+
+        return roster;
+    }
+
+
 }
+
