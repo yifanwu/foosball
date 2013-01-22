@@ -73,36 +73,10 @@ public class Strategies {
         return -1;
     }
 
-    // moves player from less likely row to ball row
-    public static int[] movePlayerTowardBall(int[] gameState) {
-        int[] roster = Helper.getTeamRoster(gameState);
-        int[] oppRoster = Helper.getOppRoster(gameState);
-        int ballRow = gameState[3];
-
-        int[] playersOnBallRow = Helper.getPlayersOnRow(roster, ballRow);
-        int[] oppsOnBallRow = Helper.getPlayersOnRow(oppRoster, ballRow);
-        int[] myTeamFatigues = Helper.getTeamFatigue(gameState);
-        int playerToMove = -1;
-
-        if (playersOnBallRow.length > oppsOnBallRow.length && ballRow - 1 > -5) {
-            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow - 1);
-            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
-        }
-        else if (ballRow + 1 < 5) {
-            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow + 1);
-            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
-        }
-
-        if (playerToMove != -1) {
-            roster[playerToMove] = ballRow;
-        }
-
-        return roster;
-    }
 
     // BETTER ONE EVEN THOUGH DOESN'T MAKE SENSE
     // moves player from more likely row to ball row
-    public static int[] movePlayerTowardBall2(int[] gameState) {
+    public static int[] movePlayerTowardBall(int[] gameState) {
         int[] roster = Helper.getTeamRoster(gameState);
         int[] oppRoster = Helper.getOppRoster(gameState);
         int ballRow = gameState[3];
