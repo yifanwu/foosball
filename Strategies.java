@@ -32,11 +32,16 @@ public class Strategies {
         if (input.length != 9) {
             return null;
         } else {
+            int counter = 0;
             for(int i=0; i < 9; i++) {
                 for(int j=0;j<input[i];j++) {
                     // hard coding the offset
-                    output[i] = i-4;
+                    output[counter] = i-4;
+                    counter += 1;
                 }
+            }
+            if (v) {
+                System.out.println("counter should be 22 and is: "+counter);
             }
             for (int j=0;j<4;j++) {
                 output[22+j] = 100;
