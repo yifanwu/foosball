@@ -11,7 +11,7 @@ class foosRef
      * 2: mix
      * 3: flat
      */
-    public static int CASES = 3;
+    public static int CASES = 1;
 
     public static void main(String[] args) {
         if (args.length != 1) {
