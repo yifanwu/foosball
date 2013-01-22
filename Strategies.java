@@ -167,7 +167,6 @@ public class Strategies {
         return teamFatigue;
     }
 
-
     public static int[] getOppFatigue(int[] gameState) {
         int[] oppFatigue = new int[NUM_FOOSPLAYERS];
 

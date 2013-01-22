@@ -4,7 +4,7 @@
  */
 import java.util.Arrays;
 
-class foosteam
+class foosbasic
 {
     public static int NUM_FOOSPLAYERS = 26;
     public static int NUM_FIELDED = 22;
@@ -23,7 +23,7 @@ class foosteam
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java foosteam GAMEID"
+            System.out.println("Usage: java foosbasic GAMEID"
                     + "\n\tGAMEID = 0    creates a new game"
                     + "\n\tGAMEID = WXYZ connect to a specific game");
             return;
