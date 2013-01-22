@@ -1,5 +1,8 @@
+import java.lang.Exception;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.io.*;
 
 public class Strategies {
 
@@ -8,6 +11,10 @@ public class Strategies {
     public static enum GAME_TYPE {
         EVEN,OFFENSIVE,DEFENSIVE
     }
+
+    // Create file
+
+
 
     /* the rows are indexed per below
      * -4   -3  -2  -1  0   1   2   3   4
@@ -189,6 +196,24 @@ public class Strategies {
         }
 
         return roster;
+    }
+
+    public static void logMoves(int[] gameState) {
+        try {
+
+            double time = System.currentTimeMillis();
+            FileWriter fstream = new FileWriter(time+".txt");
+            BufferedWriter out = new BufferedWriter(fstream);
+
+            out.write(Arrays.toString(gameState));
+            //Close the output stream
+            out.close();
+
+        } catch (Exception e) {
+            System.out.println("caught exception before it killed us");
+        }
+
+
     }
 
 
