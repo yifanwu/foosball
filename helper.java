@@ -1,10 +1,7 @@
-import java.lang.String;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Helper {
+public class helper {
     private static final int NUM_FOOSPLAYERS = 26;
     private static boolean v = false;
 

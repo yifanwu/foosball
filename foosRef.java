@@ -1,5 +1,3 @@
-
-
 class foosRef
 {
     public static int NUM_FOOSPLAYERS = 26;

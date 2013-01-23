@@ -1,7 +1,3 @@
-import java.lang.Exception;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Strategies {
 
     private static final int NUM_FOOSPLAYERS = 26;
@@ -16,6 +12,9 @@ public class Strategies {
      * made two dementional for easier access
      */
     static final int[][] INIT_TYPES = {{3,1,2,2,3,3,2,3,3}, {2,1,1,1,4,3,3,3,4}, {4,3,3,1,4,3,1,1,2}};
+    static final int[] silly_init = {0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                                     -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
+                                    100, 100, 100, 100};
 
     public static int chooseInitType(int[] GAME_TYPE_RESULT) {
         double randNum = Math.random();
@@ -47,7 +46,7 @@ public class Strategies {
      * @return
      */
     public static int[] updateInitRosterForTired(int[] init, int[] gameState) {
-        int mostFatigued = Helper.getMostFatiguedPlayer(Helper.getTeamFatigue(gameState));
+        int mostFatigued = helper.getMostFatiguedPlayer(helper.getTeamFatigue(gameState));
         int positionOfFatigued = init[mostFatigued];
         init[mostFatigued] = 100;
         // find the first that's 100 and replace
@@ -73,22 +72,22 @@ public class Strategies {
     // BETTER ONE EVEN THOUGH DOESN'T MAKE SENSE
     // moves player from more likely row to ball row
     public static int[] movePlayerTowardBall(int[] gameState) {
-        int[] roster = Helper.getTeamRoster(gameState);
-        int[] oppRoster = Helper.getOppRoster(gameState);
+        int[] roster = helper.getTeamRoster(gameState);
+        int[] oppRoster = helper.getOppRoster(gameState);
         int ballRow = gameState[3];
 
-        int[] playersOnBallRow = Helper.getPlayersOnRow(roster, ballRow);
-        int[] oppsOnBallRow = Helper.getPlayersOnRow(oppRoster, ballRow);
-        int[] myTeamFatigues = Helper.getTeamFatigue(gameState);
+        int[] playersOnBallRow = helper.getPlayersOnRow(roster, ballRow);
+        int[] oppsOnBallRow = helper.getPlayersOnRow(oppRoster, ballRow);
+        int[] myTeamFatigues = helper.getTeamFatigue(gameState);
         int playerToMove = -1;
 
         if (playersOnBallRow.length < oppsOnBallRow.length && ballRow - 1 > -5) {
-            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow - 1);
-            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
+            int[] playersToMove = helper.getPlayersOnRow(roster, ballRow - 1);
+            playerToMove = helper.getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
         }
         else if (ballRow + 1 < 5) {
-            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow + 1);
-            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
+            int[] playersToMove = helper.getPlayersOnRow(roster, ballRow + 1);
+            playerToMove = helper.getLeastFatiguedPlayer(playersToMove, myTeamFatigues);
         }
 
         if (playerToMove != -1) {
@@ -100,19 +99,19 @@ public class Strategies {
 
     // does not work as well as not trying to keep at least one player on each row
     public static int[] keepAtLeastOnePlayerOnEachRow(int[] gameState) {
-        int[] roster = Helper.getTeamRoster(gameState);
-        int[] oppRoster = Helper.getOppRoster(gameState);
+        int[] roster = helper.getTeamRoster(gameState);
+        int[] oppRoster = helper.getOppRoster(gameState);
         int ballRow = gameState[3];
 
-        int[] playersOnBallRow = Helper.getPlayersOnRow(roster, ballRow);
-        int[] oppsOnBallRow = Helper.getPlayersOnRow(oppRoster, ballRow);
-        int[] myTeamFatigues = Helper.getTeamFatigue(gameState);
+        int[] playersOnBallRow = helper.getPlayersOnRow(roster, ballRow);
+        int[] oppsOnBallRow = helper.getPlayersOnRow(oppRoster, ballRow);
+        int[] myTeamFatigues = helper.getTeamFatigue(gameState);
         int playerToMove = -1;
 
-        int[] defenseSidePlayers = Helper.getPlayersOnRow(roster, ballRow - 1);
-        int defenseSideLeastFatigued = Helper.getLeastFatiguedPlayer(defenseSidePlayers, myTeamFatigues);
-        int[] offenseSidePlayers = Helper.getPlayersOnRow(roster, ballRow + 1);
-        int offenseSideLeastFatigued = Helper.getLeastFatiguedPlayer(offenseSidePlayers, myTeamFatigues);
+        int[] defenseSidePlayers = helper.getPlayersOnRow(roster, ballRow - 1);
+        int defenseSideLeastFatigued = helper.getLeastFatiguedPlayer(defenseSidePlayers, myTeamFatigues);
+        int[] offenseSidePlayers = helper.getPlayersOnRow(roster, ballRow + 1);
+        int offenseSideLeastFatigued = helper.getLeastFatiguedPlayer(offenseSidePlayers, myTeamFatigues);
 
         if (playersOnBallRow.length < oppsOnBallRow.length && ballRow - 1 > -5) {
             playerToMove = (defenseSidePlayers.length > 1) ? defenseSideLeastFatigued : -1;
@@ -131,28 +130,28 @@ public class Strategies {
     // moves player from less likely row (based on fatigue) to ball row
     // performs pretty equal to movePlayerTowardBall2
     public static int[] moveBasedOnFatigue(int[] gameState) {
-        int[] roster = Helper.getTeamRoster(gameState);
-        int[] oppRoster = Helper.getOppRoster(gameState);
-        int[] myTeamFatigues = Helper.getTeamFatigue(gameState);
-        int[] oppTeamFatigues = Helper.getTeamFatigue(gameState);
+        int[] roster = helper.getTeamRoster(gameState);
+        int[] oppRoster = helper.getOppRoster(gameState);
+        int[] myTeamFatigues = helper.getTeamFatigue(gameState);
+        int[] oppTeamFatigues = helper.getTeamFatigue(gameState);
 
         int ballRow = gameState[3];
 
-        int[] playersOnBallRow = Helper.getPlayersOnRow(roster, ballRow);
-        int playersFatigue = Helper.getFatigueOfRow(playersOnBallRow, myTeamFatigues);
+        int[] playersOnBallRow = helper.getPlayersOnRow(roster, ballRow);
+        int playersFatigue = helper.getFatigueOfRow(playersOnBallRow, myTeamFatigues);
 
-        int[] oppsOnBallRow = Helper.getPlayersOnRow(oppRoster, ballRow);
-        int oppFatigue = Helper.getFatigueOfRow(oppsOnBallRow, oppTeamFatigues);
+        int[] oppsOnBallRow = helper.getPlayersOnRow(oppRoster, ballRow);
+        int oppFatigue = helper.getFatigueOfRow(oppsOnBallRow, oppTeamFatigues);
 
         int playerToMove = -1;
 
         if (oppFatigue > playersFatigue && ballRow - 1 > -5) {
-            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow - 1);
-            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, oppTeamFatigues);
+            int[] playersToMove = helper.getPlayersOnRow(roster, ballRow - 1);
+            playerToMove = helper.getLeastFatiguedPlayer(playersToMove, oppTeamFatigues);
         }
         else if (ballRow + 1 < 5) {
-            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow + 1);
-            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, oppTeamFatigues);
+            int[] playersToMove = helper.getPlayersOnRow(roster, ballRow + 1);
+            playerToMove = helper.getLeastFatiguedPlayer(playersToMove, oppTeamFatigues);
         }
 
         if (playerToMove != -1) {
@@ -162,67 +161,50 @@ public class Strategies {
         return roster;
     }
 
+    public static int[] oneGuyMoving(int[] gameState) {
+        int[] roster = helper.getTeamRoster(gameState);
+        int[] fatigue = helper.getTeamFatigue(gameState);
+        int ballRow = gameState[3];
 
-//
-//    /**
-//     * If the fatigue of the players that we have on the ball line is small enough
-//     * that we shouldn't have to move another player onto the line, find another
-//     * place to beef up players starting with the two rows on either side of the
-//     * ball line and moving outwards
-//     * @param gameState
-//     * @return
-//     */
-//    public static int[] superAwesome(int[] gameState) {
-//        int[] roster = Helper.getTeamRoster(gameState);
-//        int[] oppRoster = Helper.getOppRoster(gameState);
-//        int ballRow = gameState[3];
-//
-//        int[] playersOnBallRow = Helper.getPlayersOnRow(roster, ballRow);
-//        int playersFatigue = Helper.getFatigueOfRow(playersOnBallRow);
-//
-//        int[] oppsOnBallRow = Helper.getPlayersOnRow(oppRoster, ballRow);
-//        int oppFatigue = Helper.getFatigueOfRow(oppsOnBallRow);
-//
-//        int[] myTotalTeamFatigues = Helper.getTeamFatigue(gameState);
-//        int playerToMove = -1;
-//
-//        // our players are unfatigued enough that we don't have to move someone
-//        // to this row
-//        if (playersFatigue < oppFatigue - 3) {
-//            // look for another row
-//        }
-//        else {
-//
-//        }
-//
-//        if (oppFatigue > playersFatigue && ballRow - 1 > -5) {
-//            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow - 1);
-//            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, myTotalTeamFatigues);
-//        }
-//        else if (ballRow + 1 < 5) {
-//            int[] playersToMove = Helper.getPlayersOnRow(roster, ballRow + 1);
-//            playerToMove = Helper.getLeastFatiguedPlayer(playersToMove, myTotalTeamFatigues);
-//        }
-//
-//        if (playerToMove != -1) {
-//            roster[playerToMove] = ballRow;
-//        }
-//
-//        return roster;
-//    }
-//
-//    public static float[] probMovingFromRow(int row, int[] teamRoster, int[] oppRoster) {
-//        float[] probs = new float[9];
-//
-//        for (int i = 0; i < Math.min(-4 - row, 4 - row); i++) {
-//            int[] playersOnRow = Helper.getPlayersOnRow(teamRoster, row);
-//            int[] oppsOnRow = Helper.getPlayersOnRow(oppRoster, row);
-//
-//            int myFatigue = Helper.getFatigueOfRow()
-//
-//        }
-//
-//    }
+        System.out.println("Ball row " + ballRow);
+        if (ballRow == -3) {
+            int[] playersOnRow2 = helper.getPlayersOnRow(roster, -2);
+            if (playersOnRow2.length == 0) {
+                int[] players = helper.getPlayersOnRow(roster, -4);
+                int leastFatigued = helper.getLeastFatiguedPlayer(players, fatigue);
+                roster[leastFatigued] = ballRow;
+            }
+            else {
+                roster[playersOnRow2[0]] = ballRow;
+            }
+        }
+        else if (ballRow == 3) {
+            int[] playersOnRow2 = helper.getPlayersOnRow(roster, 2);
+            if (playersOnRow2.length == 0) {
+                int[] players = helper.getPlayersOnRow(roster, 4);
+                int leastFatigued = helper.getLeastFatiguedPlayer(players, fatigue);
+                roster[leastFatigued] = ballRow;
+            }
+            else {
+                roster[playersOnRow2[0]] = ballRow;
+            }
+        }
+        else {
+            int[] players = helper.getPlayersOnRow(roster, ballRow + 1);
+            if (players.length < 1) {
+                players = helper.getPlayersOnRow(roster, ballRow - 1);
+            }
+
+            if (players.length > 0) {
+                roster[players[0]] = ballRow;
+            }
+        }
+
+        System.out.println("----------------------");
+        return roster;
+    }
+
+
 
 }
 
