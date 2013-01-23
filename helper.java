@@ -1,8 +1,8 @@
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.io.*;
-
 
 public class Helper {
     private static final int NUM_FOOSPLAYERS = 26;
@@ -16,7 +16,6 @@ public class Helper {
 
         return totalFatigue;
     }
-
 
     public static int getLeastFatiguedPlayer(int[] players, int[] fatigue) {
         if (v) {
@@ -36,6 +35,21 @@ public class Helper {
         }
 
         return leastFatiguedPlayer;
+    }
+
+    public static int getMostFatiguedPlayer(int[] players, int[] fatigue) {
+
+        int mostFatiguedPlayer = -1;
+        int maxFatigue = 0;
+
+        for (int player : players) {
+            if (fatigue[player] > maxFatigue) {
+                maxFatiguedPlayer = player;
+                maxFatigue = fatigue[player];
+            }
+        }
+
+        return mostFatiguedPlayer;
     }
 
     public static int[] getPlayersOnRow(int[] roster, int row) {
@@ -89,12 +103,11 @@ public class Helper {
      * basic logging to help analyse the results better, potentially
      *
      * @param gameState
-     */
-    public static void logMoves(int[] gameState) {
+    public static void logMoves(int[] gameState, String fileName) {
         try {
 
             double time = System.currentTimeMillis();
-            FileWriter fstream = new FileWriter(time+".txt");
+            FileWriter fstream = new FileWriter(fileName+".txt");
             BufferedWriter out = new BufferedWriter(fstream);
 
             out.write(Arrays.toString(gameState));
@@ -107,4 +120,5 @@ public class Helper {
 
 
     }
+     */
 }

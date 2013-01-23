@@ -1,3 +1,5 @@
+import com.sun.tools.corba.se.idl.toJavaPortable.Helper;
+
 import java.lang.Exception;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -5,33 +7,21 @@ import java.util.Arrays;
 public class Strategies {
 
     private static final int NUM_FOOSPLAYERS = 26;
-    private static boolean v = true;
+    private static boolean v = false;
     public static enum GAME_TYPE {
         EVEN,OFFENSIVE,DEFENSIVE
     }
 
-    // Create file
-
-
-
-    /* the rows are indexed per below
+    /**
+     * the rows are indexed per below
      * -4   -3  -2  -1  0   1   2   3   4
+     * made two dementional for easier access
      */
     static final int[][] INIT_TYPES = {{3,1,2,2,3,3,2,3,3}, {2,1,1,1,4,3,3,3,4}, {4,3,3,1,4,3,1,1,2}};
 
-    /*
-    static final int[] INIT_EVEN = new int[]{3,1,2,2,3,3,2,3,3};
-    static final int[] INIT_OFFENSIVE = new int[]{2,1,1,1,4,3,3,3,4};
-    static final int[] INIT_DEFENSIVE = new int[]{4,3,3,1,4,3,1,1,2};
-    */
-    //static final int[][] intToType = new int[][]{INIT_EVEN,INIT_OFFENSIVE,INIT_DEFENSIVE};
-    // to be filled in later as our init board
-    //static int[] INIT;
-
     public static int[] rowNumToRoster(int[] input) {
         int[] output = new int[26];
-
-        // input.length = 9
+        // input.length should be 9 given 9 rows on the board
         if (input.length != 9) {
             return null;
         } else {
@@ -76,6 +66,36 @@ public class Strategies {
         }
         return -1;
     }
+
+    /**
+     * This takes in the original layout and then swaps the tired player off
+     * @param init
+     * @return
+     */
+    public static int[] updateInitRosterForTired(int[] init, int[] gameState) {
+        int mostFatigued = Helper.getMostFatiguedPlayer(Helper.getTeamRoster(gameState),Helper.getTeamFatigue(gameState));
+        int positionOfFatigued = init[mostFatigued];
+        init[mostFatigued] = 100;
+        // find the first that's 100 and replace
+        for(int i = 0; i<init.length; i++) {
+            if (init[i] == 100) {
+                init[i] = positionOfFatigued;
+            }
+        }
+
+        return init;
+    }
+
+    /**
+     * This assumes that the last row is the strongest
+     * @param init
+     * @return
+     */
+    public static int[] updateInitRosterForLastRow(int[] init) {
+        int[] updated = new int[26];
+        return updated;
+    }
+
 
     // moves player from less likely row to ball row
     public static int[] movePlayerTowardBall(int[] gameState) {
