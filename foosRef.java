@@ -10,8 +10,9 @@ class foosRef
      * 1: offense
      * 2: mix
      * 3: flat
+     * 4: big center
      */
-    public static int CASES = 1;
+    public static int CASES = 4;
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -39,11 +40,17 @@ class foosRef
                         -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
                 break;
-            default:
+            case 3:
                 roster = new int[]{100, 100, 100, 100,
                         4, 4, 4, 3, 3, 2, 2, 1, 1, 0, 0,
                         0, 0, -1, -1, -2, -3, -4, -4, -4, -4, 4};
                 break;
+            default:
+                roster = new int[]{100, 100, 100, 100,
+                        1, -1, 4, 3, 3, 2, 2, 1, 1, 0, 0,
+                        0, 0, -1, -1, -2, -3, -4, -4, 1, 1, 4};
+                break;
+
         }
 
         int[] game_state;

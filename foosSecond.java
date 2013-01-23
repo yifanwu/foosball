@@ -11,7 +11,7 @@ class FoosSecond
     public static int ITER_PER_QUARTER = 200;
     public static int teamScore = 0;
     public static int myType = 0; //default is even
-    private static boolean v = true;
+    private static boolean v = false;
 
     /*
      * keep track of the games played and choose based on their preportions
@@ -40,7 +40,7 @@ class FoosSecond
             System.out.println("the row assignment is:"+Arrays.toString(Strategies.INIT_TYPES[myType]));
         }
 
-        int[] roster = Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        int[] roster = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
 
         if (v) {
             System.out.println("my roaster: "+Arrays.toString(roster));
@@ -72,6 +72,6 @@ class FoosSecond
 
 
     public static int[] new_move(int[] game_state) {
-        return Strategies.moveBasedOnFatigue2(game_state);
+        return Strategies.movePlayerTowardBall(game_state);
     }
 }

@@ -1,17 +1,17 @@
 import java.lang.String;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.io.*;
 
 public class Helper {
     private static final int NUM_FOOSPLAYERS = 26;
-    private static boolean v = true;
+    private static boolean v = false;
 
-    public static int getTotalFatigue(int[] playersFatigue) {
+    public static int getFatigueOfRow(int[] players, int[] fatigues) {
         int totalFatigue = 0;
-        for (int fatigue : playersFatigue) {
-            totalFatigue += fatigue;
+        for (int player : players) {
+            totalFatigue += fatigues[player];
         }
 
         return totalFatigue;
@@ -37,15 +37,15 @@ public class Helper {
         return leastFatiguedPlayer;
     }
 
-    public static int getMostFatiguedPlayer(int[] players, int[] fatigue) {
+    public static int getMostFatiguedPlayer(int[] fatigue) {
 
+        int maxFatigue = -1;
         int mostFatiguedPlayer = -1;
-        int maxFatigue = 0;
 
-        for (int player : players) {
-            if (fatigue[player] > maxFatigue) {
-                maxFatiguedPlayer = player;
-                maxFatigue = fatigue[player];
+        for (int i = 0; i < fatigue.length; i++) {
+            if (fatigue[i] > maxFatigue) {
+                mostFatiguedPlayer = i;
+                maxFatigue = fatigue[i];
             }
         }
 
@@ -97,6 +97,30 @@ public class Helper {
         System.arraycopy(gameState, 82, oppFatigue, 0, NUM_FOOSPLAYERS);
 
         return oppFatigue;
+    }
+
+    public static int[] rowNumToRoster(int[] input) {
+        int[] output = new int[26];
+        // input.length should be 9 given 9 rows on the board
+        if (input.length != 9) {
+            return null;
+        } else {
+            int counter = 0;
+            for(int i=0; i < 9; i++) {
+                for(int j=0;j<input[i];j++) {
+                    // hard coding the offset
+                    output[counter] = i-4;
+                    counter += 1;
+                }
+            }
+            if (v) {
+                System.out.println("counter should be 22 and is: "+counter);
+            }
+            for (int j=0;j<4;j++) {
+                output[22+j] = 100;
+            }
+            return output;
+        }
     }
 
     /**

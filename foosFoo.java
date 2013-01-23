@@ -1,13 +1,16 @@
 import java.io.*;
 import java.io.DataOutput;
 import java.lang.String;
+import java.util.Arrays;
 
 class foosFoo {
     public static int NUM_FOOSPLAYERS = 26;
     public static int NUM_FIELDED = 22;
     public static int ITER_PER_QUARTER = 200;
-    public int myType = -1;
+    public static int myType = -1;
     public static String fileName = "yifan_itr_1.txt";
+    public static int teamScore = 0;
+
     /**
      * keep track of the games played and choose based on their preportions
      * type result is even, offensive and defensive
@@ -27,21 +30,31 @@ class foosFoo {
             return;
         }
 
-        try {
+        double time = System.currentTimeMillis();
 
-            double time = System.currentTimeMillis();
+        BufferedWriter outBuffer = null;
+
+        try {
             FileWriter fstream = new FileWriter(fileName);
-            BufferedWriter outBuffer = new BufferedWriter(fstream);
+            outBuffer = new BufferedWriter(fstream);
+
         } catch (Exception e) {
-            System.out.println("caught exception before it killed us");
+            System.out.println("canot write to file: "+fileName);
         }
+
+
         // Connect to a FoosGame with id from the command line
         FoosGame game = new FoosGame(args[0]);
 
         myType = Strategies.chooseInitType(GAME_TYPE_RESULT);
-        outBuffer.write("the play type is: "+myType);
 
-        int[] roster = Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        try {
+            outBuffer.write("the play type is: "+myType);
+        } catch (Exception e) {
+            System.out.println("cannot write myType: "+myType);
+        }
+
+        int[] roster = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
 
 
         while (true) {
@@ -50,11 +63,14 @@ class foosFoo {
             if (game_state[2] == 4 * ITER_PER_QUARTER)
                 break;
                 // every quater choose a new roaster
-            else if (game_state[2]%ITER_PER_QUARTER) {
+            else if ((game_state[2]%ITER_PER_QUARTER) == 0) {
                 // update myType!
                 myType = Strategies.chooseInitType(GAME_TYPE_RESULT);
                 // update roaster --- no longer contrained by moving by one!
-                roster = Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+                int[] init = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+                // update off the tired one
+                roster = Strategies.updateInitRosterForTired(init, game_state);
+
             } else {
 
                 // Use the game state to determine the next move
@@ -65,7 +81,13 @@ class foosFoo {
             // keep track of performance
             if (game_state[0] > teamScore) {
                 GAME_TYPE_RESULT[myType] += 1;
-                outBuffer.write("we won via: \n"+Array.toString(game_state));
+                teamScore = game_state[0];
+                try {
+                    outBuffer.write("we won via: \n"+Arrays.toString(game_state));
+                } catch (Exception e) {
+                    System.out.println("cannot write game_state");
+                }
+
             }
         }
 
@@ -75,14 +97,17 @@ class foosFoo {
             System.out.println("WIN!");
         if (game_state[0] == game_state[1])
             System.out.println("Tie Game");
-
-        outBuffer.close();
+        try {
+            outBuffer.close();
+        } catch (Exception e) {
+            System.out.println("caught exception before it killed us");
+        }
     }
 
 
     public static int[] new_move(int[] game_state) {
 
-        return Strategies.moveBasedOnFatigue2(game_state);
+        return Strategies.moveBasedOnFatigue(game_state);
     }
 
 
