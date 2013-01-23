@@ -16,6 +16,10 @@ public class Strategies {
                                      -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
                                     100, 100, 100, 100};
 
+    static final int[] silly_init_2 = {0, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3,
+            -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3,
+            100, 100, 100, 100};
+
     public static int chooseInitType(int[] GAME_TYPE_RESULT) {
         double randNum = Math.random();
         if (v) {
