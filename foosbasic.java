@@ -40,7 +40,7 @@ class FoosBasic
             System.out.println("the row assignment is:"+Arrays.toString(Strategies.INIT_TYPES[myType]));
 
         }
-        int[] roster = Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        int[] roster = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
 
         if (v) {
             System.out.println("my roaster: "+Arrays.toString(roster));

@@ -1,10 +1,10 @@
+import java.lang.String;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
-class Helper {
+public class Helper {
     private static final int NUM_FOOSPLAYERS = 26;
     private static boolean v = false;
 
@@ -35,6 +35,21 @@ class Helper {
         }
 
         return leastFatiguedPlayer;
+    }
+
+    public static int getMostFatiguedPlayer(int[] fatigue) {
+
+        int maxFatigue = -1;
+        int mostFatiguedPlayer = -1;
+
+        for (int i = 0; i < fatigue.length; i++) {
+            if (fatigue[i] > maxFatigue) {
+                mostFatiguedPlayer = i;
+                maxFatigue = fatigue[i];
+            }
+        }
+
+        return mostFatiguedPlayer;
     }
 
     public static int[] getPlayersOnRow(int[] roster, int row) {
@@ -84,16 +99,39 @@ class Helper {
         return oppFatigue;
     }
 
+    public static int[] rowNumToRoster(int[] input) {
+        int[] output = new int[26];
+        // input.length should be 9 given 9 rows on the board
+        if (input.length != 9) {
+            return null;
+        } else {
+            int counter = 0;
+            for(int i=0; i < 9; i++) {
+                for(int j=0;j<input[i];j++) {
+                    // hard coding the offset
+                    output[counter] = i-4;
+                    counter += 1;
+                }
+            }
+            if (v) {
+                System.out.println("counter should be 22 and is: "+counter);
+            }
+            for (int j=0;j<4;j++) {
+                output[22+j] = 100;
+            }
+            return output;
+        }
+    }
+
     /**
      * basic logging to help analyse the results better, potentially
      *
      * @param gameState
-     */
-    public static void logMoves(int[] gameState) {
+    public static void logMoves(int[] gameState, String fileName) {
         try {
 
             double time = System.currentTimeMillis();
-            FileWriter fstream = new FileWriter(time+".txt");
+            FileWriter fstream = new FileWriter(fileName+".txt");
             BufferedWriter out = new BufferedWriter(fstream);
 
             out.write(Arrays.toString(gameState));
@@ -106,4 +144,5 @@ class Helper {
 
 
     }
+     */
 }
