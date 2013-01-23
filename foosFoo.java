@@ -1,5 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.lang.System;
 import java.util.Arrays;
 
 class foosFoo {
@@ -71,10 +72,15 @@ class foosFoo {
                 roster = Strategies.updateInitRosterForTired(init, game_state);
 
             } else {
-
                 // Use the game state to determine the next move
                 roster = new_move(game_state);
 
+            }
+
+            if (!game.is_valid(roster)) {
+                System.out.println("ILLEGAL MOVE with the following roster");
+                System.out.println(Arrays.toString(roster));
+                break;
             }
 
             // keep track of performance
@@ -101,12 +107,15 @@ class foosFoo {
         } catch (Exception e) {
             System.out.println("caught exception before it killed us");
         }
+
+        System.out.println("and the types did:"+Arrays.toString(GAME_TYPE_RESULT));
     }
 
 
     public static int[] new_move(int[] game_state) {
+        int[] newRoster = Strategies.moveBasedOnFatigue(game_state);
+        return newRoster;
 
-        return Strategies.moveBasedOnFatigue(game_state);
     }
 
 

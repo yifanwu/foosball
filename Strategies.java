@@ -52,23 +52,18 @@ public class Strategies {
         int positionOfFatigued = init[mostFatigued];
         init[mostFatigued] = 100;
         // find the first that's 100 and replace
+        int counter = 0;
         for(int i = 0; i<init.length; i++) {
             if (init[i] == 100) {
-                init[i] = positionOfFatigued;
+                counter ++;
+                if (counter == 2) {
+                    init[i] = positionOfFatigued;
+                    break;
+                }
             }
         }
 
         return init;
-    }
-
-    /**
-     * This assumes that the last row is the strongest
-     * @param init
-     * @return
-     */
-    public static int[] updateInitRosterForLastRow(int[] init) {
-        int[] updated = new int[26];
-        return updated;
     }
 
     // BETTER ONE EVEN THOUGH DOESN'T MAKE SENSE
@@ -163,6 +158,35 @@ public class Strategies {
         return roster;
     }
 
+    public static int[] readOppPos(int[] roster, int[] game_state) {
+        int ballRow = game_state[3];
+        int[] teamRoster = helper.getTeamRoster(game_state);
+        int[] bestRoster = null;
+        double currentProb = helper.getTeamPerformance(teamRoster,game_state);
+
+        double maxProb =  0;
+    // try each move
+        if(ballRow > 0) {
+
+            for(int i = 0; i < NUM_FOOSPLAYERS; i++) {
+                int[] tempRoster = roster;
+
+                if ((roster[i] > 0) && (roster[i] < 5)) {
+                    tempRoster[i] = roster[i] + 1;
+                        double newProb = helper.getTeamPerformance(tempRoster,game_state);
+                        if (newProb > maxProb) {
+                           //do something
+                        }
+                }
+            }
+
+
+            } else {
+
+        }
+
+                     return bestRoster;
+    }
 
     public static int chooseLonePlayer(int[] roster, int[] fatigues) {
         int[] defense = helper.getPlayersOnRow(roster, -4);

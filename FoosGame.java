@@ -59,13 +59,13 @@ class FoosGame
       return false;
 
     // If this is a new quarter, then any fielded roster is ok
-    if (game_state[2] % ITER_PER_QUARTER == 0)
+    if (game_state[2]% ITER_PER_QUARTER == 0)
       return true;
 
     // Else we're mid-quarter and can only move one player to an adjacent row
     int num_moved = 0;
-    for (int i = 4; i < 4+NUM_FOOSPLAYERS; ++i)
-      num_moved += Math.abs(move[i] - game_state[4+i]);
+    for (int i = 0; i < NUM_FOOSPLAYERS; ++i)
+      num_moved += Math.abs(move[i] - game_state[i+4]);
 
     return num_moved <= 1;
   }

@@ -1,3 +1,4 @@
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,6 +14,44 @@ public class helper {
 
         return totalFatigue;
     }
+
+    public static double getActualFatigueOfRow(int[] players, int[]fatigues) {
+        double result = 0;
+
+        for (int playerNum: players) {
+            result += Math.pow(0.99, fatigues[playerNum]);
+        }
+
+        return result;
+    }
+
+    public static double getTeamPerformance(int[] teamRoster, int[] game_state) {
+        //assuming the opponent doesn't move
+        int[] oppRoster = helper.getOppRoster(game_state);
+        int[] oppFatigue = helper.getOppFatigue(game_state);
+        int[] teamFatigue = helper.getTeamFatigue(game_state);
+        double prob = 1;
+        int ballRow = game_state[3];
+
+        // attackmode
+        if (ballRow > 0) {
+            for (int i = ballRow; i < 5; i++) {
+                double teamFatigueOnRow = helper.getActualFatigueOfRow(helper.getPlayersOnRow(teamRoster,i),teamFatigue);
+                double oppFatigueOnRow = helper.getActualFatigueOfRow(helper.getPlayersOnRow(oppRoster,i),oppFatigue);
+                prob *= teamFatigueOnRow/oppFatigueOnRow;
+            }
+
+        } else {
+            for (int i = ballRow; i > -5 ; i--) {
+                double teamFatigueOnRow = helper.getActualFatigueOfRow(helper.getPlayersOnRow(teamRoster,i),teamFatigue);
+                double oppFatigueOnRow = helper.getActualFatigueOfRow(helper.getPlayersOnRow(oppRoster,i),oppFatigue);
+                prob *= teamFatigueOnRow/oppFatigueOnRow;
+            }
+        }
+
+        return prob;
+    }
+
 
     public static int getLeastFatiguedPlayer(int[] players, int[] fatigue) {
         if (v) {
