@@ -4,7 +4,7 @@
  */
 import java.util.Arrays;
 
-class FoosBasic
+class foosbasic
 {
     public static int NUM_FOOSPLAYERS = 26;
     public static int NUM_FIELDED = 22;
@@ -40,7 +40,7 @@ class FoosBasic
             System.out.println("the row assignment is:"+Arrays.toString(Strategies.INIT_TYPES[myType]));
 
         }
-        int[] roster = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        int[] roster = helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
 
         if (v) {
             System.out.println("my roaster: "+Arrays.toString(roster));
@@ -61,7 +61,7 @@ class FoosBasic
 
             // Use the game state to determine the next move
             if (game_state[2] % ITER_PER_QUARTER == 0)
-                roster =  Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+                roster =  helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
             else
                 roster = new_move(game_state);
         }

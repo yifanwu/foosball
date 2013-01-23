@@ -1,6 +1,5 @@
-import java.io.*;
-import java.io.DataOutput;
-import java.lang.String;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Arrays;
 
 class foosFoo {
@@ -54,7 +53,7 @@ class foosFoo {
             System.out.println("cannot write myType: "+myType);
         }
 
-        int[] roster = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        int[] roster = helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
 
 
         while (true) {
@@ -67,7 +66,7 @@ class foosFoo {
                 // update myType!
                 myType = Strategies.chooseInitType(GAME_TYPE_RESULT);
                 // update roaster --- no longer contrained by moving by one!
-                int[] init = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+                int[] init = helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
                 // update off the tired one
                 roster = Strategies.updateInitRosterForTired(init, game_state);
 

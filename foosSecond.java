@@ -4,7 +4,7 @@
  */
 import java.util.Arrays;
 
-class FoosSecond
+class foosSecond
 {
     public static int NUM_FOOSPLAYERS = 26;
     public static int NUM_FIELDED = 22;
@@ -40,7 +40,7 @@ class FoosSecond
             System.out.println("the row assignment is:"+Arrays.toString(Strategies.INIT_TYPES[myType]));
         }
 
-        int[] roster = Helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        int[] roster = helper.rowNumToRoster(Strategies.INIT_TYPES[myType]);
 
         if (v) {
             System.out.println("my roaster: "+Arrays.toString(roster));
