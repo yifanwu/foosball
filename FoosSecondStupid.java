@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class FoosStupid {
+public class FoosSecondStupid {
 
     /**
      * Mona & Yifan's awesome strategy of following the ball
@@ -13,9 +13,12 @@ public class FoosStupid {
     public static int teamScore = 0;
     public static int myType = 0; //default is even
     private static boolean v = false;
-    static final int[] silly_init = {0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-            -4 , -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
-            100, 100, 100, 100};
+
+    static final int[] silly_init = FoosStupid.silly_init;
+
+//    static final int[] silly_init = {0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+//            0 , -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,
+//            100, 100, 100, 100};
 
     /*
      * keep track of the games played and choose based on their preportions
@@ -67,7 +70,7 @@ public class FoosStupid {
 
             // Use the game state to determine the next move
             if (game_state[2] % ITER_PER_QUARTER == 0)
-                roster = silly_init;
+                roster = FoosStupid.silly_init;
             else
                 roster = new_move(game_state);
         }
@@ -80,24 +83,9 @@ public class FoosStupid {
             System.out.println("Tie Game");
     }
 
-
-    /**
-     * Determine a roster for the next round from the current game state.
-     * Input:
-     * game_state[0]: team score
-     * game_state[1]: opponent team score
-     * game_state[2]: game round number
-     * game_state[3]: row number of the ball
-     * game_state[4 ]-[ 29]: team foosplayer row positions
-     * game_state[30]-[ 55]: team foosplayer fatigues
-     * game_state[56]-[ 81]: opponent foosplayer row positions
-     * game_state[81]-[107]: opponent foosplayer fatigues
-     * Output:
-     * roster[0]-[NUM_FOOSPLAYERS-1]: team foosplayer row positions for next round
-     */
     public static int[] new_move(int[] game_state) {
         // Trivial strategy, null move
-        return Strategies.oneGuyMoving(game_state);
+        return Strategies.oneGuyMoving1(game_state);
     }
 }
 
