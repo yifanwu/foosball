@@ -12,7 +12,7 @@ public class Strategies {
      * made two dementional for easier access
      */
     static final int[][] INIT_TYPES = {{3,1,2,2,3,3,2,3,3}, {2,1,1,1,4,3,3,3,4}, {4,3,3,1,4,3,1,1,2}};
-
+    public static int single_guy = 0;
 
     static final int[] silly_init_2 = {0, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3,
             -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3,
@@ -163,58 +163,6 @@ public class Strategies {
         return roster;
     }
 
-    public static int[] oneGuyMoving(int[] gameState) {
-        int[] roster = helper.getTeamRoster(gameState);
-        int[] fatigue = helper.getTeamFatigue(gameState);
-        int ballRow = gameState[3];
-
-        System.out.println("Ball row " + ballRow);
-        if (ballRow == -3) {
-            int[] playersOnRow2 = helper.getPlayersOnRow(roster, -2);
-            if (playersOnRow2.length == 0) {
-                int[] players = helper.getPlayersOnRow(roster, -4);
-                int leastFatigued = helper.getLeastFatiguedPlayer(players, fatigue);
-                roster[leastFatigued] = ballRow;
-            }
-            else {
-                roster[playersOnRow2[0]] = ballRow;
-            }
-        }
-        else if (ballRow == 3) {
-            int[] playersOnRow2 = helper.getPlayersOnRow(roster, 2);
-            if (playersOnRow2.length == 0) {
-                int[] players = helper.getPlayersOnRow(roster, 4);
-                int leastFatigued = helper.getLeastFatiguedPlayer(players, fatigue);
-                roster[leastFatigued] = ballRow;
-            }
-            else {
-                roster[playersOnRow2[0]] = ballRow;
-            }
-        }
-        else {
-            int[] players = helper.getPlayersOnRow(roster, ballRow + 1);
-            if (players.length < 1) {
-                players = helper.getPlayersOnRow(roster, ballRow - 1);
-            }
-
-            if (players.length > 0) {
-                roster[players[0]] = ballRow;
-            }
-            else {
-                int playerToMove = chooseLonePlayer(roster, fatigue);
-                if (roster[playerToMove] == 4) {
-                    roster[playerToMove] = 3;
-                }
-                else if (roster[playerToMove] == -4) {
-                    roster[playerToMove] = -3;
-                }
-
-            }
-        }
-
-        System.out.println("----------------------");
-        return roster;
-    }
 
     public static int chooseLonePlayer(int[] roster, int[] fatigues) {
         int[] defense = helper.getPlayersOnRow(roster, -4);
@@ -228,8 +176,9 @@ public class Strategies {
         }
     }
 
+    public static int[] oneGuyMoving(int[] gameState) {
+        System.out.println("+++++++++++++++++++++++");
 
-    public static int[] oneGuyMoving1(int[] gameState) {
         int[] roster = helper.getTeamRoster(gameState);
         int[] fatigue = helper.getTeamFatigue(gameState);
         int ballRow = gameState[3];
@@ -259,18 +208,51 @@ public class Strategies {
         }
         else {
             int[] players = helper.getPlayersOnRow(roster, ballRow + 1);
-            if (players.length < 1) {
+            if (players.length == 0) {
                 players = helper.getPlayersOnRow(roster, ballRow - 1);
             }
 
             if (players.length > 0) {
                 roster[players[0]] = ballRow;
             }
+            else {
+                // move lone player towards ball
+                int lonePlayer = getLonePlayer(roster);
+
+                if (lonePlayer != -1) {
+                    int direction = ballRow - roster[lonePlayer];
+                    if (direction < 0)
+                        roster[lonePlayer] -= 1;
+                    else
+                        roster[lonePlayer] += 1;
+                }
+                else {
+                    // else choose a lone player from either offense or defense
+                    int playerToMove = chooseLonePlayer(roster, fatigue);
+                    if (roster[playerToMove] == 4) {
+                        roster[playerToMove] = 3;
+                    }
+                    else if (roster[playerToMove] == -4) {
+                        roster[playerToMove] = -3;
+                    }
+
+                }
+            }
         }
 
         System.out.println("----------------------");
         return roster;
     }
+
+    private static int getLonePlayer(int[] roster) {
+        for (int i = 0; i < roster.length; i++) {
+            if (roster[i] != 100 && roster[i] != 4 && roster[i] != -4) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 
     public static int[] twoGuysMoving(int[] gameState) {

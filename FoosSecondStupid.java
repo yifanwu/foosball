@@ -85,7 +85,7 @@ public class FoosSecondStupid {
 
     public static int[] new_move(int[] game_state) {
         // Trivial strategy, null move
-        return Strategies.oneGuyMoving1(game_state);
+        return Strategies.oneGuyMoving(game_state);
     }
 }
 

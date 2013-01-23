@@ -70,6 +70,11 @@ public class FoosStupid {
                 roster = silly_init;
             else
                 roster = new_move(game_state);
+
+            if (is_valid(roster, game_state) == false) {
+                System.out.println("INVALID MOVE");
+                return;
+            }
         }
 
 
@@ -79,6 +84,33 @@ public class FoosStupid {
         if (game_state[0] == game_state[1])
             System.out.println("Tie Game");
     }
+
+
+    public static boolean is_valid(int[] move, int[] game_state) {
+        // Makes sense as a roster
+        if (move.length != NUM_FOOSPLAYERS)
+            return false;
+
+        // Has exactly NUM_FIELDED players on the field
+        int num_fielded = 0;
+        for (int i = 0; i < move.length; ++i)
+            if (Math.abs(move[i]) <= 4)
+                ++num_fielded;
+        if (num_fielded != NUM_FIELDED)
+            return false;
+
+        // If this is a new quarter, then any fielded roster is ok
+        if (game_state[2] % ITER_PER_QUARTER == 0)
+            return true;
+
+        // Else we're mid-quarter and can only move one player to an adjacent row
+        int num_moved = 0;
+        for (int i = 0; i < NUM_FOOSPLAYERS; ++i)
+            num_moved += Math.abs(move[i] - game_state[4+i]);
+
+        return num_moved <= 1;
+    }
+
 
 
     /**
