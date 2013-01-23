@@ -1,11 +1,12 @@
-/**
- * Mona & Yifan's awesome strategy of following the ball
- * and testing different strategies
- */
 import java.util.Arrays;
 
-class FoosBasic
-{
+public class FoosStupid {
+
+    /**
+     * Mona & Yifan's awesome strategy of following the ball
+     * and testing different strategies
+     */
+
     public static int NUM_FOOSPLAYERS = 26;
     public static int NUM_FIELDED = 22;
     public static int ITER_PER_QUARTER = 200;
@@ -18,7 +19,7 @@ class FoosBasic
      * type result is even, offensive and defensive
      * initalized as 1:1:1 for math convenience
     */
-    public static int[] GAME_TYPE_RESULT = new int[]{1,1,1};
+    public static int[] GAME_TYPE_RESULT = new int[]{1, 1, 1};
 
 
     public static void main(String[] args) {
@@ -32,18 +33,20 @@ class FoosBasic
         // Connect to a FoosGame with id from the command line
         FoosGame game = new FoosGame(args[0]);
 
-        // Initial roster: select the better ones with high probability
-        // TODO: might be more aggressive about this
+// Initial roster: select the better ones with high probability
+// TODO: might be more aggressive about this
         myType = Strategies.chooseInitType(GAME_TYPE_RESULT);
         if (v) {
-            System.out.println("the type is:"+myType);
-            System.out.println("the row assignment is:"+Arrays.toString(Strategies.INIT_TYPES[myType]));
+            System.out.println("the type is:" + myType);
+            System.out.println("the row assignment is:" + Arrays.toString(Strategies.INIT_TYPES[myType]));
 
         }
-        int[] roster = Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        // int[] roster = Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+        int[] roster = Strategies.silly_init;
+
 
         if (v) {
-            System.out.println("my roaster: "+Arrays.toString(roster));
+            System.out.println("my roaster: " + Arrays.toString(roster));
         }
 
         System.out.println("{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{");
@@ -54,14 +57,14 @@ class FoosBasic
             if (game_state[2] == 4 * ITER_PER_QUARTER)
                 break;
 
-            // keep track of performance
+// keep track of performance
             if (game_state[0] > teamScore) {
                 GAME_TYPE_RESULT[myType] += 1;
             }
 
             // Use the game state to determine the next move
             if (game_state[2] % ITER_PER_QUARTER == 0)
-                roster =  Strategies.rowNumToRoster(Strategies.INIT_TYPES[myType]);
+                roster = Strategies.silly_init;
             else
                 roster = new_move(game_state);
         }
@@ -75,7 +78,8 @@ class FoosBasic
     }
 
 
-    /** Determine a roster for the next round from the current game state.
+    /**
+     * Determine a roster for the next round from the current game state.
      * Input:
      * game_state[0]: team score
      * game_state[1]: opponent team score
@@ -90,6 +94,8 @@ class FoosBasic
      */
     public static int[] new_move(int[] game_state) {
         // Trivial strategy, null move
-        return Strategies.movePlayerTowardBall(game_state);
+        return Strategies.oneGuyMoving(game_state);
     }
 }
+
+
