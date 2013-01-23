@@ -158,34 +158,36 @@ public class Strategies {
         return roster;
     }
 
-    public static int[] readOppPos(int[] roster, int[] game_state) {
-        int ballRow = game_state[3];
+    public static int[] readOppPos(int[] game_state) {
         int[] teamRoster = helper.getTeamRoster(game_state);
+        int ballRow = game_state[3];
+        int[] roster = helper.getTeamRoster(game_state);
         int[] bestRoster = null;
         double currentProb = helper.getTeamPerformance(teamRoster,game_state);
 
         double maxProb =  0;
-    // try each move
-        if(ballRow > 0) {
+        // try each move
 
-            for(int i = 0; i < NUM_FOOSPLAYERS; i++) {
-                int[] tempRoster = roster;
+        for(int i = 0; i < NUM_FOOSPLAYERS; i++) {
+            int[] tempRoster = roster;
 
-                if ((roster[i] > 0) && (roster[i] < 5)) {
-                    tempRoster[i] = roster[i] + 1;
-                        double newProb = helper.getTeamPerformance(tempRoster,game_state);
-                        if (newProb > maxProb) {
-                           //do something
-                        }
+            if (((roster[i] > 0) && (roster[i] < 5) && (ballRow > 0)) || ((roster[i] < 1) && (roster[i] > -5) && (ballRow < 0)) ) {
+                tempRoster[i] = roster[i] + 1;
+                double newProb = helper.getTeamPerformance(tempRoster,game_state);
+                if (newProb > maxProb) {
+                    //do something
+                    bestRoster = tempRoster;
+                }
+                tempRoster[i] = roster[i] - 1;
+                newProb = helper.getTeamPerformance(tempRoster,game_state);
+                if (newProb > maxProb) {
+                    //do something
+                    bestRoster = tempRoster;
                 }
             }
-
-
-            } else {
-
         }
 
-                     return bestRoster;
+        return bestRoster;
     }
 
     public static int chooseLonePlayer(int[] roster, int[] fatigues) {

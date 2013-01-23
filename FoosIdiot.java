@@ -1,3 +1,7 @@
+import java.lang.ArrayStoreException;
+import java.lang.System;
+import java.util.Arrays;
+
 class FoosIdiot {
 
     public static int NUM_FOOSPLAYERS = 26;
@@ -58,8 +62,9 @@ class FoosIdiot {
 
     public static int[] new_move(int[] game_state) {
         // Trivial strategy, null move
-
-        return Strategies.oneGuyMoving(game_state);
+                                     //
+        System.out.println("Game State is: "+Arrays.toString(game_state));
+        return Strategies.readOppPos(game_state);
     }
 }
 
